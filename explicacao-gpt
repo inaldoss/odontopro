@@ -1,0 +1,399 @@
+Perfeito 👌
+Vou explicar como se você estivesse começando agora como dev, dividindo em duas partes:
+
+1. 🧠 **Mapa mental (visão geral para entender a arquitetura)**
+2. 📘 **Explicação estilo README (pasta por pasta, arquivo por arquivo)**
+
+---
+
+# 🧠 MAPA MENTAL DO PROJETO
+
+```
+ODONTOPRO (SaaS para clínica odontológica)
+│
+├── 🌐 Frontend (Interface do usuário)
+│   ├── app/
+│   ├── components/
+│   ├── hooks/
+│   └── styles/
+│
+├── 🔐 Autenticação
+│   ├── auth/
+│   └── middleware.ts
+│
+├── 🧠 Backend (Regras de negócio)
+│   ├── API Routes (dentro de app/api/)
+│   ├── services/
+│   └── validations/
+│
+├── 🗄️ Banco de Dados
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   └── migrations/
+│
+├── 💳 Integrações externas
+│   ├── stripe/
+│   └── configs de ambiente (.env)
+│
+├── ⚙️ Configurações do Projeto
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── next.config.ts
+│   └── tailwind.config.ts
+│
+└── 📂 Arquivos públicos
+    └── public/
+```
+
+---
+
+# 📘 README EXPLICATIVO – ENTENDENDO O PROJETO
+
+## 📌 1. Raiz do Projeto
+
+Aqui ficam os arquivos mais importantes de configuração.
+
+---
+
+### 📦 `package.json`
+
+É o **coração do projeto Node**.
+
+Ele define:
+
+* Dependências (bibliotecas usadas)
+* Scripts (ex: `npm run dev`)
+* Versões das ferramentas
+
+Exemplo do que ele controla:
+
+* Next.js
+* Prisma
+* Stripe
+* Zod
+* React Query
+
+👉 Pense nele como a “lista de ferramentas” do projeto.
+
+---
+
+### ⚙️ `tsconfig.json`
+
+Configuração do TypeScript.
+
+Define:
+
+* Regras de tipagem
+* Aliases de importação (ex: `@/components`)
+* Como o compilador deve interpretar o código
+
+---
+
+### ⚙️ `next.config.ts`
+
+Configuração do Next.js.
+
+Aqui você pode:
+
+* Configurar imagens
+* Ajustar builds
+* Alterar comportamento do servidor
+
+---
+
+### 🎨 `tailwind.config.ts`
+
+Configuração do Tailwind CSS.
+
+Define:
+
+* Cores
+* Fontes
+* Temas
+* Extensões personalizadas
+
+---
+
+### 🔐 `.env`
+
+Guarda variáveis secretas:
+
+* URL do banco
+* Chave do Stripe
+* Segredo de autenticação
+
+⚠️ Nunca subir isso no GitHub público.
+
+---
+
+# 📁 2. Pasta `src/`
+
+Essa é a pasta principal da aplicação.
+
+Normalmente contém:
+
+```
+src/
+ ├── app/
+ ├── components/
+ ├── lib/
+ ├── hooks/
+ └── services/
+```
+
+---
+
+## 📁 `app/`
+
+Aqui mora o **App Router do Next.js**.
+
+Cada pasta dentro dela representa uma rota da aplicação.
+
+Exemplo:
+
+```
+app/
+ ├── page.tsx        → "/"
+ ├── dashboard/
+ │    └── page.tsx   → "/dashboard"
+ ├── api/
+ │    └── users/
+ │         └── route.ts → API endpoint
+```
+
+### 🔹 `page.tsx`
+
+É a página renderizada.
+
+### 🔹 `layout.tsx`
+
+Define layout padrão (menu, sidebar, header).
+
+### 🔹 `loading.tsx`
+
+Tela de carregamento.
+
+### 🔹 `api/`
+
+Backend da aplicação.
+
+Tudo que está dentro de `app/api` funciona como servidor.
+
+👉 Aqui ficam:
+
+* CRUD de pacientes
+* CRUD de consultas
+* Integração com Stripe
+* Regras de negócio
+
+---
+
+## 📁 `components/`
+
+Componentes reutilizáveis da interface.
+
+Exemplos:
+
+* Button
+* Input
+* Modal
+* Sidebar
+* Card de paciente
+
+👉 Regra mental:
+Se você reutiliza em mais de uma tela, vira componente.
+
+---
+
+## 📁 `hooks/`
+
+Hooks personalizados do React.
+
+Exemplo:
+
+* `useAuth`
+* `usePatients`
+* `useAppointments`
+
+Servem para:
+
+* Reutilizar lógica
+* Organizar estado
+* Separar UI de regra
+
+---
+
+## 📁 `lib/`
+
+Funções utilitárias.
+
+Exemplo:
+
+* formatar datas
+* helpers
+* configuração do Prisma
+* cliente do Stripe
+
+É a “caixa de ferramentas internas”.
+
+---
+
+## 📁 `services/`
+
+Onde ficam as regras de negócio mais complexas.
+
+Exemplo:
+
+* Criar paciente
+* Validar plano
+* Processar pagamento
+* Cancelar assinatura
+
+👉 Aqui é onde o sistema “pensa”.
+
+---
+
+## 📁 `validations/`
+
+Arquivos com validação usando Zod.
+
+Define:
+
+* O que é um paciente válido
+* O que é uma consulta válida
+* Campos obrigatórios
+
+Evita dados errados entrarem no sistema.
+
+---
+
+# 🗄️ 3. Pasta `prisma/`
+
+Aqui mora o banco de dados.
+
+---
+
+### 📄 `schema.prisma`
+
+Define os modelos do banco:
+
+Exemplo mental:
+
+```
+model User {
+  id        String
+  name      String
+  email     String
+}
+
+model Patient {
+  id        String
+  name      String
+  phone     String
+}
+```
+
+Isso vira tabela no PostgreSQL.
+
+---
+
+### 📁 `migrations/`
+
+Histórico de mudanças do banco.
+
+Cada vez que você altera o schema, o Prisma cria uma migration.
+
+---
+
+# 📂 4. `public/`
+
+Arquivos estáticos:
+
+* Imagens
+* Logos
+* Ícones
+* Favicon
+
+Tudo aqui pode ser acessado direto pelo navegador.
+
+---
+
+# 🔐 5. Autenticação
+
+Normalmente envolve:
+
+* Configuração do NextAuth
+* Providers (Google, email, etc.)
+* Proteção de rotas com middleware
+
+Fluxo mental:
+
+```
+Usuário faz login
+    ↓
+Token é criado
+    ↓
+Middleware verifica token
+    ↓
+Acesso liberado ou bloqueado
+```
+
+---
+
+# 💳 6. Stripe (Pagamentos)
+
+Fluxo mental típico:
+
+```
+Usuário escolhe plano
+    ↓
+Backend cria sessão no Stripe
+    ↓
+Stripe processa pagamento
+    ↓
+Webhook confirma pagamento
+    ↓
+Plano é ativado no banco
+```
+
+---
+
+# 🧠 Como pensar nesse projeto como iniciante
+
+Divida sempre em 4 camadas:
+
+1. Interface (o que o usuário vê)
+2. Estado e lógica (React + hooks)
+3. Backend (API routes)
+4. Banco de dados (Prisma)
+
+Se você entender essas 4 camadas, você entende 80% do projeto.
+
+---
+
+# 🚀 Próximo passo para você evoluir
+
+Se eu fosse montar um plano de estudo baseado nesse projeto:
+
+1. Entender bem:
+
+   * React básico
+   * Rotas do Next.js
+   * CRUD com Prisma
+
+2. Depois:
+
+   * Autenticação
+   * Pagamentos
+   * Arquitetura de SaaS
+
+---
+
+Se você quiser, posso agora:
+
+* 🔍 Escolher uma pasta e explicar linha por linha
+* 🧱 Criar um diagrama de arquitetura mais técnico
+* 📚 Montar um plano de estudos baseado exatamente nesse projeto
+* 🛠️ Simular que você vai implementar uma nova feature e te guiar passo a passo
+
+Qual dessas você quer fazer agora?
